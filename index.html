@@ -260,10 +260,10 @@ svg{overflow:visible;display:block}
     <select id="wk-yr" onchange="renderWeekly()"><option value="all">כולן</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option></select>
     <label>מדד:</label>
     <select id="wk-met" onchange="renderWeekly()">
-      <option value="calls_in">שיחות נכנסות</option><option value="calls_ans">שיחות נענות</option>
+      <option value="calls_in">שיחות נכנסות</option><option value="calls_branches">שיחות גולשות</option><option value="calls_ans">שיחות נענות</option>
       <option value="ans_pct">% מענה</option><option value="dig_count">פניות כתובות</option>
       <option value="dig_time_sec">זמן תגובה</option><option value="surv_avg">ממוצע סקרים</option>
-      <option value="bo">BO</option><option value="efficiency">יעילות</option><option value="orders_n">כמות הזמנות</option><option value="orders_sum">סכום הזמנות</option><option value="avg_delivery_digital">ממוצע משלוח מוקד</option><option value="avg_delivery_net">ממוצע משלוח רשת</option><option value="refund_sum">סכום זיכויים</option><option value="refund_pct">% זיכויים</option><option value="refund_avg">ממוצע זיכוי לפניה</option>
+      <option value="calls_branches">שיחות גולשות</option><option value="bo">BO</option><option value="efficiency">יעילות</option><option value="orders_n">כמות הזמנות</option><option value="orders_sum">סכום הזמנות</option><option value="avg_delivery_digital">ממוצע משלוח מוקד</option><option value="avg_delivery_net">ממוצע משלוח רשת</option><option value="refund_sum">סכום זיכויים</option><option value="refund_pct">% זיכויים</option><option value="refund_avg">ממוצע זיכוי לפניה</option>
     </select>
   </div>
   <div class="frow">
@@ -541,10 +541,13 @@ function renderDaily(){
       <div class="cat-info"><h3>שיחות</h3><p>פילוח שיחות נכנסות, נענות ואחוז מענה</p></div>
     </div>
     <div class="cat-body">
-      <div class="kg kg6">
+      <div class="kg kg4">
         ${kc({lbl:'שיחות נכנסות מכירות',val:r.calls_sales,fmt:'num',dec:0,bar:'blue',noProg:true,prev:p?.calls_sales})}
         ${kc({lbl:'שיחות נכנסות שירות', val:r.calls_service,fmt:'num',dec:0,bar:'blue',noProg:true,prev:p?.calls_service})}
         ${kc({lbl:'שיחות נכנסות CallBack',val:r.calls_callback,fmt:'num',dec:0,bar:'blue',noProg:true})}
+        ${kc({lbl:'שיחות גולשות',        val:r.calls_branches,fmt:'num',dec:0,bar:'blue',noProg:true,prev:p?.calls_branches})}
+      </div>
+      <div class="kg kg3" style="margin-top:10px">
         ${kc({lbl:'סה"כ שיחות נכנסות',  val:r.calls_in, fmt:'num',dec:0,bar:'blue',noProg:true,prev:p?.calls_in})}
         ${kc({lbl:'סה"כ שיחות נענות',   val:r.calls_ans,fmt:'num',dec:0,bar:'blue',noProg:true,prev:p?.calls_ans})}
         ${kc({lbl:'אחוז מענה כולל',      val:r.ans_pct, fmt:'pct',dec:1,tgt:92,tgtLbl:'יעד: 92%',higher:true,prev:p?.ans_pct})}
@@ -708,6 +711,7 @@ function renderMvM(){
   const mo=+document.getElementById('mo-base').value;
   const years=[2024,2025,2026];
   const mDef=[
+    {k:'calls_branches',lbl:'שיחות גולשות',   agg:'sum',fmt:'num',dec:0},
     {k:'calls_in',   lbl:'שיחות נכנסות',        agg:'sum',fmt:'num',dec:0},
     {k:'calls_ans',  lbl:'שיחות נענות',          agg:'sum',fmt:'num',dec:0},
     {k:'ans_pct',    lbl:'% מענה',               agg:'avg',fmt:'pct',dec:1,tgt:92,higher:true},
@@ -781,6 +785,7 @@ function renderMonthly(){
 function renderYearly(){
   const data=RAW.filter(r=>r.calls_in),years=[2024,2025,2026];
   const mets=[
+    {k:'calls_branches',lbl:'שיחות גולשות',   agg:'sum',fmt:'num',dec:0},
     {k:'calls_sales',  lbl:'שיחות מכירות',    agg:'sum',fmt:'num',dec:0},
     {k:'calls_service',lbl:'שיחות שירות',      agg:'sum',fmt:'num',dec:0},
     {k:'calls_in',     lbl:'שיחות נכנסות',     agg:'sum',fmt:'num',dec:0},
@@ -1295,7 +1300,7 @@ function showToast(msg){
 
 
 /* ══ LIVE DATA FROM GOOGLE SHEETS ══ */
-const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycby8qtlJCs70Ewv57HHW6jRXNYWhBZrfIkhtLrkw-gBplMkcC1zsTO_yKYxMknu8qsPu/exec';
+const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyQMmFAtk-VzKgxvDmaMzBBDKIQB6ip4vLLrVZMOrb1K2zal5B5qrwdstufaL6DcKkk/exec';
 
 (function loadLiveData(){
   const overlay = document.getElementById('_loading');
