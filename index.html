@@ -242,7 +242,7 @@ svg{overflow:visible;display:block}
       <option value="calls_in">שיחות נכנסות</option><option value="calls_ans">שיחות נענות</option>
       <option value="ans_pct">% מענה</option><option value="dig_count">פניות כתובות</option>
       <option value="dig_time_sec">זמן תגובה</option><option value="surv_avg">ממוצע סקרים</option>
-      <option value="bo">BO</option><option value="efficiency">יעילות</option>
+      <option value="bo">BO</option><option value="efficiency">יעילות</option><option value="orders_n">כמות הזמנות</option><option value="orders_sum">סכום הזמנות</option><option value="avg_delivery_digital">ממוצע משלוח מוקד</option><option value="avg_delivery_net">ממוצע משלוח רשת</option><option value="refund_sum">סכום זיכויים</option><option value="refund_pct">% זיכויים</option><option value="refund_avg">ממוצע זיכוי לפניה</option>
     </select>
   </div>
   <div class="frow">
@@ -254,7 +254,7 @@ svg{overflow:visible;display:block}
     <label>מדד:</label>
     <select id="wk-dmet" onchange="renderWkDetail()">
       <option value="calls_in">שיחות נכנסות</option><option value="ans_pct">% מענה</option>
-      <option value="dig_count">פניות כתובות</option><option value="surv_avg">ממוצע סקרים</option><option value="efficiency">יעילות</option>
+      <option value="dig_count">פניות כתובות</option><option value="surv_avg">ממוצע סקרים</option><option value="efficiency">יעילות</option><option value="orders_n">כמות הזמנות</option><option value="orders_sum">סכום הזמנות</option><option value="avg_delivery_digital">ממוצע משלוח מוקד</option><option value="avg_delivery_net">ממוצע משלוח רשת</option><option value="refund_sum">סכום זיכויים</option><option value="refund_pct">% זיכויים</option><option value="refund_avg">ממוצע זיכוי לפניה</option>
     </select>
   </div>
   <div class="cg2" style="margin-bottom:14px">
@@ -769,8 +769,13 @@ function renderYearly(){
     {k:'dig_time_sec', lbl:'זמן תגובה',        agg:'avg',fmt:'sec',     tgt:90,higher:false},
     {k:'bo',           lbl:'BO טופל',          agg:'sum',fmt:'num',dec:0},
     {k:'surv_avg',     lbl:'ממוצע סקרים',      agg:'avg',fmt:'num',dec:2,tgt:4.3,higher:true},
-    {k:'orders_n',     lbl:'כמות הזמנות',      agg:'sum',fmt:'num',dec:0},
-    {k:'orders_sum',   lbl:'סכום הזמנות',      agg:'sum',fmt:'money',dec:0},
+    {k:'orders_n',              lbl:'כמות הזמנות',           agg:'sum',fmt:'num',dec:0},
+    {k:'orders_sum',             lbl:'סכום הזמנות',            agg:'sum',fmt:'money',dec:0},
+    {k:'avg_delivery_digital',   lbl:'ממוצע משלוח מוקד',       agg:'avg',fmt:'money',dec:1},
+    {k:'avg_delivery_net',       lbl:'ממוצע משלוח רשת',        agg:'avg',fmt:'money',dec:1},
+    {k:'refund_sum',             lbl:'סכום זיכויים',           agg:'sum',fmt:'money',dec:0},
+    {k:'refund_pct',             lbl:'% זיכויים',              agg:'avg',fmt:'pct',dec:1},
+    {k:'refund_avg',             lbl:'ממוצע זיכוי לפניה',      agg:'avg',fmt:'money',dec:2,tgt:2.7,higher:false},
     {k:'total_handled',lbl:'סה"כ פניות שטופלו',agg:'sum',fmt:'num',dec:0},
     {k:'efficiency',   lbl:'יעילות',           agg:'avg',fmt:'num',dec:1,tgt:12,higher:true},
   ];
