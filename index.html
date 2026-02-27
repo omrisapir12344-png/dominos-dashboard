@@ -1295,7 +1295,7 @@ function showToast(msg){
 
 
 /* ══ LIVE DATA FROM GOOGLE SHEETS ══ */
-const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyHxwq1swS_V1-9ttWmmD0faKYkqaCs9IO40jDeJETiLjK1dGaTy88165F8AfvHfu8D0Q/exec';
+const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycby8qtlJCs70Ewv57HHW6jRXNYWhBZrfIkhtLrkw-gBplMkcC1zsTO_yKYxMknu8qsPu/exec';
 
 (function loadLiveData(){
   const overlay = document.getElementById('_loading');
@@ -1353,15 +1353,17 @@ const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyHxwq1swS_V1-9ttWmm
     showErr('לא ניתן להתחבר לגוגל שיטס');
   };
 
-  setTimeout(function(){
+  setTimeout(function(){  // 20s timeout
+
     if(!done){ done=true; showErr('timeout'); }
-  }, 8000);
+  }, 20000);
   
   // If script fails to load at all - fallback immediately
   script.onload = function(){
-    setTimeout(function(){
+    setTimeout(function(){  // 20s timeout
+
       if(!done){ done=true; showErr('לא התקבלה תשובה מהשרת'); }
-    }, 5000);
+    }, 12000);
   };
 
   setBar(50);
