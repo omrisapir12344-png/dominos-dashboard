@@ -151,16 +151,6 @@ svg{overflow:visible;display:block}
 .stc{display:none}.stc.active{display:block}
 
 
-.entry-section{border-radius:10px;overflow:hidden;margin-bottom:14px;border:1px solid #30363d}
-.entry-sec-hdr{display:flex;align-items:center;gap:10px;padding:11px 18px;font-size:.88rem;font-weight:700;color:#e6edf3;border-bottom:1px solid rgba(255,255,255,.06)}
-.entry-grid{display:grid;gap:14px;padding:16px 18px;background:#161b22}
-.entry-grid-3{grid-template-columns:repeat(3,1fr)}
-.entry-field{display:flex;flex-direction:column;gap:5px}
-.entry-field label{font-size:.72rem;color:#8b949e;font-weight:600}
-.entry-field input{background:#0d1117;border:1px solid #30363d;color:#e6edf3;border-radius:7px;padding:9px 12px;font-size:.9rem;outline:none;transition:border-color .15s;direction:ltr;text-align:right}
-.entry-field input:focus{border-color:#e8322a;box-shadow:0 0 0 2px rgba(232,50,42,.15)}
-.entry-hint{font-size:.64rem;color:#484f58}
-@media(max-width:700px){.entry-grid-3{grid-template-columns:repeat(2,1fr)}}
 
 </style>
 </head>
@@ -200,7 +190,6 @@ svg{overflow:visible;display:block}
   <div class="tab" onclick="showTab('yearly',this)">📈 שנתי</div>
   <div class="tab" onclick="showTab('insights',this)">💡 תובנות</div>
   <div class="tab" onclick="showTab('topics',this)">🗂️ פירוט לפי נושא</div>
-  <div class="tab" onclick="showTab('entry',this)">✏️ הזנת נתונים</div>
 </div>
 
 <!-- ═══ DAILY ═══════════════════════════════════════════════ -->
@@ -425,76 +414,6 @@ svg{overflow:visible;display:block}
   </div>
 </div>
 
-
-<div id="tab-entry" class="tc">
-<div style="max-width:860px;margin:0 auto">
-  <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border:1px solid #e8322a;border-radius:12px;padding:18px 22px;margin-bottom:18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
-    <div style="font-size:1.8rem">✏️</div>
-    <div style="flex:1"><div style="font-size:1rem;font-weight:700;color:#fff">הזנת נתונים יומיים</div><div style="font-size:.73rem;color:#8b949e;margin-top:2px">הזן נתוני היום — הדשבורד יתעדכן מיד</div></div>
-    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-      <label style="color:#8b949e;font-size:.78rem">תאריך:</label>
-      <input type="date" id="entry-date" style="background:#21262d;border:1px solid #30363d;color:#e6edf3;border-radius:6px;padding:6px 11px;font-size:.84rem;outline:none">
-      <button onclick="fillFromExisting()" style="background:#21262d;border:1px solid #30363d;color:#8b949e;border-radius:6px;padding:6px 11px;font-size:.76rem;cursor:pointer">טען יום קיים</button>
-    </div>
-  </div>
-  <div class="entry-section">
-    <div class="entry-sec-hdr" style="background:linear-gradient(135deg,#0c1e38,#161b22);border-color:#1b3f6b"><span>☎️</span><span>שיחות</span></div>
-    <div class="entry-grid entry-grid-3">
-      <div class="entry-field"><label>שיחות מכירות</label><input type="number" id="e_calls_sales" placeholder="0" min="0"></div>
-      <div class="entry-field"><label>שיחות שירות</label><input type="number" id="e_calls_service" placeholder="0" min="0"></div>
-      <div class="entry-field"><label>שיחות CallBack</label><input type="number" id="e_calls_callback" placeholder="0" min="0"></div>
-      <div class="entry-field"><label>סה"כ שיחות נכנסות</label><input type="number" id="e_calls_in" placeholder="מחושב אוטומטית" min="0"><span class="entry-hint">= מכירות + שירות + CallBack</span></div>
-      <div class="entry-field"><label>סה"כ שיחות נענות</label><input type="number" id="e_calls_ans" placeholder="0" min="0"></div>
-      <div class="entry-field"><label>אחוז מענה %</label><input type="number" id="e_ans_pct" placeholder="מחושב אוטומטית" min="0" max="100" step="0.1"><span class="entry-hint">יעד: 92%</span></div>
-    </div>
-  </div>
-  <div class="entry-section">
-    <div class="entry-sec-hdr" style="background:linear-gradient(135deg,#0a2018,#161b22);border-color:#1a4d2e"><span>💬</span><span>פניות כתובות ובק אופיס</span></div>
-    <div class="entry-grid entry-grid-3">
-      <div class="entry-field"><label>כמות פניות כוללת</label><input type="number" id="e_dig_count" placeholder="0" min="0"></div>
-      <div class="entry-field"><label>זמן תגובה (MM:SS)</label><input type="text" id="e_dig_time" placeholder="01:30"><span class="entry-hint">יעד: 01:30</span></div>
-      <div class="entry-field"><label>בק אופיס — סה"כ טופלו</label><input type="number" id="e_bo" placeholder="0" min="0"></div>
-    </div>
-  </div>
-  <div class="entry-section">
-    <div class="entry-sec-hdr" style="background:linear-gradient(135deg,#1a0d30,#161b22);border-color:#3a1a5c"><span>⭐</span><span>סקרים</span></div>
-    <div class="entry-grid entry-grid-3">
-      <div class="entry-field"><label>כמות סקרים</label><input type="number" id="e_surv_n" placeholder="0" min="0"></div>
-      <div class="entry-field"><label>ממוצע סקרים</label><input type="number" id="e_surv_avg" placeholder="4.3" min="1" max="5" step="0.01"><span class="entry-hint">יעד: 4.3</span></div>
-    </div>
-  </div>
-  <div class="entry-section">
-    <div class="entry-sec-hdr" style="background:linear-gradient(135deg,#280c0c,#161b22);border-color:#5a1a1a"><span>🍕</span><span>הזמנות וזיכויים</span></div>
-    <div class="entry-grid entry-grid-3">
-      <div class="entry-field"><label>כמות הזמנות</label><input type="number" id="e_orders_n" placeholder="0" min="0"></div>
-      <div class="entry-field"><label>סכום הזמנות ₪</label><input type="number" id="e_orders_sum" placeholder="0" min="0"></div>
-      <div class="entry-field"><label>סכום זיכויים ₪</label><input type="number" id="e_refund_sum" placeholder="0" min="0"></div>
-      <div class="entry-field"><label>אחוז זיכויים %</label><input type="number" id="e_refund_pct" placeholder="מחושב אוטומטית" min="0" step="0.1"></div>
-      <div class="entry-field"><label>ממוצע זיכויים ₪</label><input type="number" id="e_refund_avg" placeholder="0.00" min="0" step="0.01"><span class="entry-hint">יעד: ≤ 2.7</span></div>
-    </div>
-  </div>
-  <div class="entry-section">
-    <div class="entry-sec-hdr" style="background:linear-gradient(135deg,#071d28,#161b22);border-color:#0e3a4e"><span>👥</span><span>כ"א ויעילות</span></div>
-    <div class="entry-grid entry-grid-3">
-      <div class="entry-field"><label>תכנון שעות עבודה</label><input type="number" id="e_plan_hrs" placeholder="0.0" step="0.5"></div>
-      <div class="entry-field"><label>שעות עבודה בפועל</label><input type="number" id="e_act_hrs" placeholder="0.0" step="0.5"></div>
-      <div class="entry-field"><label>שעות עבודה נציגים</label><input type="number" id="e_agent_hrs" placeholder="0.0" step="0.5"></div>
-      <div class="entry-field"><label>סה"כ פניות שטופלו</label><input type="number" id="e_total_handled" placeholder="0" min="0"></div>
-      <div class="entry-field"><label>יעילות עובדים</label><input type="number" id="e_efficiency" placeholder="מחושב אוטומטית" step="0.1"><span class="entry-hint">יעד: 12</span></div>
-    </div>
-  </div>
-  <div style="display:flex;gap:10px;margin:16px 0 24px">
-    <button onclick="autoCalc()" style="background:#1a2a3a;border:1px solid #58a6ff;color:#58a6ff;border-radius:8px;padding:10px 16px;font-size:.84rem;font-weight:700;cursor:pointer;flex:1">🧮 חשב אוטומטית</button>
-    <button onclick="saveEntry()" style="background:#b91c1c;border:none;color:#fff;border-radius:8px;padding:10px 20px;font-size:.9rem;font-weight:700;cursor:pointer;flex:2">✅ שמור ועדכן דשבורד</button>
-    <button onclick="clearEntry()" style="background:#21262d;border:1px solid #30363d;color:#8b949e;border-radius:8px;padding:10px 14px;font-size:.82rem;cursor:pointer">🗑️ נקה</button>
-  </div>
-  <div class="sec">📋 15 ימים אחרונים</div>
-  <div class="tcard"><div class="tscroll"><table style="font-size:.76rem">
-    <thead><tr><th>תאריך</th><th>יום</th><th>שיחות נכנסות</th><th>% מענה</th><th>זמן תגובה</th><th>ממוצע סקר</th><th>יעילות</th><th></th></tr></thead>
-    <tbody id="entry-recent"></tbody>
-  </table></div></div>
-</div>
-</div>
 
 <div class="footer">דומינו׳ס פיצה · מוקד שירות לקוחות · ינואר 2024 – פברואר 2026</div>
 
@@ -978,6 +897,63 @@ function renderInsights(){
         ${v26del!=null?`<br>ממוצע משלוח מוקד: <strong>₪${v26del.toFixed(1)}</strong> | רשת: <strong>₪${v26deln?.toFixed(1)||'—'}</strong>`:''}
         ${v26ord!=null?`<br>ממוצע הזמנות יומי: <strong>${v26ord.toFixed(0)}</strong> | סכום: <strong>₪${v26sum?.toFixed(0)||'—'}</strong>`:''}
         `};
+
+    // ── ממוצע הזמנה: מוקד vs רשת ──────────────────────────────
+    (()=>{
+      const v26dig=a(d26,'avg_delivery_digital'), v25dig=a(d25p,'avg_delivery_digital'), v24dig=a(d24p,'avg_delivery_digital');
+      const v26net=a(d26,'avg_delivery_net'),     v25net=a(d25p,'avg_delivery_net'),     v24net=a(d24p,'avg_delivery_net');
+      if(v26dig==null&&v26net==null) return null;
+      const diff=v26dig!=null&&v26net!=null?v26dig-v26net:null;
+      const chgDig=v25dig?((v26dig-v25dig)/v25dig*100):null;
+      const chgNet=v25net?((v26net-v25net)/v25net*100):null;
+      const type=diff!=null?(diff>30?'warn':'good'):'good';
+      return{type,icon:'🛵',title:'ממוצע הזמנת משלוח — מוקד vs רשת',
+        html:`<div style="display:flex;gap:18px;margin-bottom:8px">
+          <div style="flex:1;background:#0d1117;border-radius:8px;padding:10px;border:1px solid #30363d">
+            <div style="font-size:.72rem;color:#8b949e;margin-bottom:4px">מוקד (דיגיטל)</div>
+            <div class="ival" style="color:#58a6ff">₪${v26dig?.toFixed(1)||'—'}</div>
+            ${chgDig!=null?`<div style="font-size:.72rem;color:${chgDig<0?'#3fb950':'#f85149'}">${chgDig<0?'▼':'▲'} ${Math.abs(chgDig).toFixed(1)}% מאשתקד</div>`:''}
+          </div>
+          <div style="flex:1;background:#0d1117;border-radius:8px;padding:10px;border:1px solid #30363d">
+            <div style="font-size:.72rem;color:#8b949e;margin-bottom:4px">רשת</div>
+            <div class="ival" style="color:#e8a600">₪${v26net?.toFixed(1)||'—'}</div>
+            ${chgNet!=null?`<div style="font-size:.72rem;color:${chgNet<0?'#3fb950':'#f85149'}">${chgNet<0?'▼':'▲'} ${Math.abs(chgNet).toFixed(1)}% מאשתקד</div>`:''}
+          </div>
+        </div>
+        ${diff!=null?`<div style="font-size:.8rem">פער: <strong style="color:${diff>30?'#f85149':'#d29922'}">₪${diff.toFixed(1)}</strong> לטובת ${diff>0?'מוקד':'רשת'} ${diff>30?'⚠️ פער גבוה':'✅'}</div>`:''}
+        ${compBox(v24dig,v25dig,v26dig,v=>v!=null?'₪'+v.toFixed(1):'—')}
+        `};
+    })(),
+
+    // ── מגמת זיכויים ──────────────────────────────────────────────
+    (()=>{
+      const v26=a(d26,'refund_pct'), v25p=a(d25p,'refund_pct'), v24p=a(d24p,'refund_pct');
+      const v26avg=a(d26,'refund_avg'), v25avg=a(d25p,'refund_avg');
+      const v26feb=a(d26feb,'refund_pct'), v25feb=a(d25feb,'refund_pct');
+      const chg=v25p?((v26-v25p)/v25p*100):null;
+      const chgAvg=v25avg?((v26avg-v25avg)/v25avg*100):null;
+      const ok=v26avg!=null&&v26avg<=2.7;
+      const type=ok&&(chg==null||chg<=0)?'good':(!ok?'bad':'warn');
+
+      // Find worst week
+      const weeks={};
+      d26.forEach(r=>{
+        const wk=`${r.year}-W${Math.ceil(r.day/7)}`;
+        if(!weeks[wk])weeks[wk]={sum:0,n:0,label:`שבוע ${Math.ceil(r.day/7)} (${['ינו','פבר','מרץ','אפר','מאי','יונ','יול','אוג','ספט','אוק','נוב','דצמ'][r.month-1]})`};
+        if(r.refund_pct){weeks[wk].sum+=r.refund_pct;weeks[wk].n++;}
+      });
+      const wkArr=Object.entries(weeks).map(([k,v])=>({k,lbl:v.label,avg:v.n?v.sum/v.n:null})).filter(w=>w.avg);
+      wkArr.sort((a,b)=>b.avg-a.avg);
+      const worstWk=wkArr[0], bestWk=wkArr[wkArr.length-1];
+
+      return{type,icon:'💸',title:'מגמת זיכויים — 2026 YTD',
+        html:`<div class="ival" style="color:${ok?'#3fb950':'#f85149'}">ממוצע זיכוי: ₪${v26avg?.toFixed(2)||'—'} ${ok?'✅':'❌'} | יעד: ₪2.7</div>
+        % זיכויים מהזמנות: <strong style="color:${v26<=10?'#3fb950':v26<=20?'#d29922':'#f85149'}">${v26?.toFixed(1)||'—'}%</strong>
+        ${compBox(v24p,v25p,v26,v=>v!=null?v.toFixed(1)+'%':'—')}
+        ${chg!=null?`<br>${chg>0?'⚠️ עלייה':'✅ ירידה'} של <strong>${Math.abs(chg).toFixed(1)}%</strong> בזיכויים לעומת ינו-פבר 2025`:''}
+        ${chgAvg!=null?`<br>ממוצע זיכוי לפניה: ${chgAvg>0?'⚠️ עלה':'✅ ירד'} ב-<strong>${Math.abs(chgAvg).toFixed(1)}%</strong> מאשתקד`:''}
+        ${worstWk?`<br>📌 שבוע הכי גבוה: <strong style="color:#f85149">${worstWk.lbl}</strong> (${worstWk.avg.toFixed(1)}%) | הכי נמוך: <strong style="color:#3fb950">${bestWk?.lbl||''}</strong> (${bestWk?.avg.toFixed(1)||''}%)`:''}
+        `};
     })(),
   ];
 
@@ -1289,194 +1265,6 @@ function showToast(msg){
 /* ══════════════════════════════════════════════════════
    DATA ENTRY TAB
    ══════════════════════════════════════════════════════ */
-function initEntry(){
-  document.getElementById('entry-date').value=LATEST.date;
-  renderRecentEntries();
-}
-
-function autoCalc(){
-  const g=id=>parseFloat(document.getElementById(id).value)||0;
-  const s=id=>{ const v=document.getElementById(id); return v; };
-
-  const sales=g('e_calls_sales'), svc=g('e_calls_service'), cb=g('e_calls_callback');
-  const ans=g('e_calls_ans'), ordN=g('e_orders_n'), ordSum=g('e_orders_sum');
-  const refSum=g('e_refund_sum'), agHrs=g('e_agent_hrs'), handled=g('e_total_handled');
-
-  const totalIn=sales+svc+cb;
-  if(totalIn>0){ s('e_calls_in').value=totalIn; }
-  if(totalIn>0&&ans>0){ s('e_ans_pct').value=(ans/totalIn*100).toFixed(1); }
-  if(ordSum>0&&refSum>0){ s('e_refund_pct').value=(refSum/ordSum*100).toFixed(1); }
-  if(agHrs>0&&handled>0){ s('e_efficiency').value=(handled/agHrs).toFixed(1); }
-  showToast('🧮 חישוב הושלם');
-}
-
-function parseTimeToSec(s){
-  if(!s)return null;
-  const p=s.trim().split(':');
-  if(p.length===2)return parseInt(p[0])*60+parseInt(p[1]);
-  if(p.length===3)return parseInt(p[0])*3600+parseInt(p[1])*60+parseInt(p[2]);
-  return null;
-}
-
-function saveEntry(){
-  const dateStr=document.getElementById('entry-date').value;
-  if(!dateStr){showToast('❌ בחר תאריך');return;}
-  const d=new Date(dateStr);
-  const dow=d.getDay(); const wdMon=dow===0?6:dow-1;
-  const g=id=>{const v=parseFloat(document.getElementById(id).value);return isNaN(v)?null:v;};
-
-  const rec={
-    date:dateStr, year:d.getFullYear(), month:d.getMonth()+1, day:d.getDate(), weekday:wdMon,
-    calls_sales:g('e_calls_sales'), calls_service:g('e_calls_service'),
-    calls_callback:g('e_calls_callback'), calls_in:g('e_calls_in'),
-    calls_ans:g('e_calls_ans'), ans_pct:g('e_ans_pct'),
-    dig_count:g('e_dig_count'),
-    dig_time_sec:parseTimeToSec(document.getElementById('e_dig_time').value),
-    bo:g('e_bo'), surv_n:g('e_surv_n'), surv_avg:g('e_surv_avg'),
-    orders_n:g('e_orders_n'), orders_sum:g('e_orders_sum'),
-    refund_sum:g('e_refund_sum'), refund_pct:g('e_refund_pct'), refund_avg:g('e_refund_avg'),
-    plan_hrs:g('e_plan_hrs'), act_hrs:g('e_act_hrs'), agent_hrs:g('e_agent_hrs'),
-    total_handled:g('e_total_handled'), efficiency:g('e_efficiency'),
-  };
-
-  if(!rec.calls_in&&!rec.ans_pct&&!rec.dig_count){showToast('❌ הזן לפחות שדה אחד');return;}
-
-  const idx=RAW.findIndex(r=>r.date===dateStr);
-  if(idx>=0){ RAW[idx]=rec; showToast('✅ יום '+dateStr+' עודכן'); }
-  else{
-    const ins=RAW.findIndex(r=>r.date>dateStr);
-    if(ins===-1)RAW.push(rec); else RAW.splice(ins,0,rec);
-    showToast('✅ יום '+dateStr+' נוסף לדשבורד');
-  }
-
-  const latest=[...RAW].filter(r=>r.calls_in).slice(-1)[0];
-  if(latest){const p=latest.date.split('-');document.getElementById('hdr-last').textContent=p[2]+'/'+p[1]+'/'+p[0];}
-  document.getElementById('sel-date').value=dateStr;
-  renderRecentEntries();
-}
-
-function fillFromExisting(){
-  const dateStr=document.getElementById('entry-date').value;
-  if(!dateStr){showToast('❌ בחר תאריך');return;}
-  const r=RAW.find(x=>x.date===dateStr);
-  if(!r){showToast('אין נתונים ליום זה');return;}
-  const sv=(id,v)=>{if(v!=null)document.getElementById(id).value=v;};
-  sv('e_calls_sales',r.calls_sales); sv('e_calls_service',r.calls_service);
-  sv('e_calls_callback',r.calls_callback); sv('e_calls_in',r.calls_in);
-  sv('e_calls_ans',r.calls_ans); sv('e_ans_pct',r.ans_pct?.toFixed(1));
-  if(r.dig_time_sec){const m=Math.floor(r.dig_time_sec/60),s=r.dig_time_sec%60;document.getElementById('e_dig_time').value=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');}
-  sv('e_dig_count',r.dig_count); sv('e_bo',r.bo);
-  sv('e_surv_n',r.surv_n); sv('e_surv_avg',r.surv_avg?.toFixed(2));
-  sv('e_orders_n',r.orders_n); sv('e_orders_sum',r.orders_sum);
-  sv('e_refund_sum',r.refund_sum); sv('e_refund_pct',r.refund_pct?.toFixed(1));
-  sv('e_refund_avg',r.refund_avg?.toFixed(2));
-  sv('e_plan_hrs',r.plan_hrs?.toFixed(1)); sv('e_act_hrs',r.act_hrs?.toFixed(1));
-  sv('e_agent_hrs',r.agent_hrs?.toFixed(1)); sv('e_total_handled',r.total_handled);
-  sv('e_efficiency',r.efficiency?.toFixed(1));
-  showToast('📋 נטענו נתוני '+dateStr);
-}
-
-function clearEntry(){
-  ['e_calls_sales','e_calls_service','e_calls_callback','e_calls_in','e_calls_ans',
-   'e_ans_pct','e_dig_count','e_dig_time','e_bo','e_surv_n','e_surv_avg',
-   'e_orders_n','e_orders_sum','e_refund_sum','e_refund_pct','e_refund_avg',
-   'e_plan_hrs','e_act_hrs','e_agent_hrs','e_total_handled','e_efficiency'
-  ].forEach(id=>document.getElementById(id).value='');
-}
-
-function renderRecentEntries(){
-  const recent=[...RAW].filter(r=>r.calls_in).slice(-15).reverse();
-  const DW=['שני','שלישי','רביעי','חמישי','שישי','שבת','ראשון'];
-  document.getElementById('entry-recent').innerHTML=recent.map(r=>{
-    const p=r.date.split('-');
-    const aC=r.ans_pct>=92?'tg':r.ans_pct>=85?'ty2':'tr2';
-    const tC=!r.dig_time_sec?'tn':r.dig_time_sec<=90?'tg':'tr2';
-    const eC=!r.efficiency?'tn':r.efficiency>=12?'tg':'ty2';
-    const t=r.dig_time_sec?Math.floor(r.dig_time_sec/60)+':'+String(r.dig_time_sec%60).padStart(2,'0'):'—';
-    return '<tr><td>'+p[2]+'/'+p[1]+'/'+p[0]+'</td><td>'+DW[r.weekday]+'</td>'
-      +'<td>'+(r.calls_in?.toLocaleString()||'—')+'</td>'
-      +'<td class="'+aC+'">'+(r.ans_pct?.toFixed(1)||'—')+'%</td>'
-      +'<td class="'+tC+'">'+t+'</td>'
-      +'<td>'+(r.surv_avg?.toFixed(2)||'—')+'</td>'
-      +'<td class="'+eC+'">'+(r.efficiency?.toFixed(1)||'—')+'</td>'
-      +'<td><button onclick="loadEdit(\''+r.date+'\')" style="background:none;border:1px solid #30363d;color:#8b949e;border-radius:5px;padding:2px 8px;font-size:.7rem;cursor:pointer">עריכה</button></td></tr>';
-  }).join('');
-}
-
-function loadEdit(d){
-  document.getElementById('entry-date').value=d;
-  fillFromExisting();
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-
-/* ══ LIVE DATA FROM GOOGLE SHEETS ══ */
-const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyHxwq1swS_V1-9ttWmmD0faKYkqaCs9IO40jDeJETiLjK1dGaTy88165F8AfvHfu8D0Q/exec';
-
-(function loadLiveData(){
-  const overlay = document.getElementById('_loading');
-  const bar     = document.getElementById('_load_bar');
-  const status  = document.getElementById('_load_status');
-  const errDiv  = document.getElementById('_load_err');
-
-  function setBar(p){ bar.style.width=p+'%'; }
-  function setStatus(s){ status.textContent=s; }
-  function hideOverlay(){
-    overlay.style.transition='opacity .5s';
-    overlay.style.opacity='0';
-    setTimeout(()=>overlay.style.display='none',500);
-  }
-  function showErr(msg){
-    errDiv.style.display='block';
-    errDiv.textContent='❌ '+msg+' — הדשבורד נטען עם נתוני הגיבוי המובנים.';
-    setBar(100); bar.style.background='#f85149';
-    setTimeout(hideOverlay, 3000);
-  }
-
-  function injectData(data){
-    RAW.length=0;
-    data.forEach(r=>RAW.push(r));
-    const latest=[...RAW].filter(r=>r.calls_in).slice(-1)[0];
-    if(latest){
-      const p=latest.date.split('-');
-      document.getElementById('hdr-last').textContent=p[2]+'/'+p[1]+'/'+p[0];
-      document.getElementById('sel-date').value=latest.date;
-    }
-    renderDaily();
-    hideOverlay();
-  }
-
-  setBar(20); setStatus('מתחבר לגוגל שיטס...');
-
-  // JSONP — works without CORS issues
-  const cb = '__gs_'+Date.now();
-  const url = WEBAPP_URL+'?callback='+cb;
-  let done = false;
-
-  window[cb] = function(data){
-    done=true;
-    delete window[cb];
-    if(script.parentNode) script.parentNode.removeChild(script);
-    if(!Array.isArray(data)||!data.length){ showErr('הגיליון ריק'); return; }
-    setBar(90); setStatus('נטענו '+data.length+' ימי נתונים ✓');
-    setTimeout(()=>injectData(data), 300);
-  };
-
-  const script = document.createElement('script');
-  script.src = url;
-  script.onerror = function(){
-    done=true;
-    showErr('לא ניתן להתחבר לגוגל שיטס');
-  };
-
-  // Timeout after 10 seconds
-  setTimeout(function(){
-    if(!done){ done=true; showErr('timeout — בדוק חיבור אינטרנט'); }
-  }, 10000);
-
-  setBar(50);
-  document.head.appendChild(script);
-})();
 
 </script>
 </body>
