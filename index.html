@@ -263,7 +263,7 @@ svg{overflow:visible;display:block}
       <option value="calls_in">שיחות נכנסות</option><option value="calls_branches">שיחות גולשות</option><option value="calls_ans">שיחות נענות</option>
       <option value="ans_pct">% מענה</option><option value="dig_count">פניות כתובות</option>
       <option value="dig_time_sec">זמן תגובה</option><option value="surv_avg">ממוצע סקרים</option>
-      <option value="calls_branches">שיחות גולשות</option><option value="bo">BO</option><option value="efficiency">יעילות</option><option value="orders_n">כמות הזמנות</option><option value="orders_sum">סכום הזמנות</option><option value="avg_delivery_digital">ממוצע משלוח מוקד</option><option value="avg_delivery_net">ממוצע משלוח רשת</option><option value="refund_sum">סכום זיכויים</option><option value="refund_pct">% זיכויים</option><option value="refund_avg">ממוצע זיכוי לפניה</option>
+      <option value="bo">BO</option><option value="efficiency">יעילות</option><option value="orders_n">כמות הזמנות</option><option value="orders_sum">סכום הזמנות</option><option value="avg_delivery_digital">ממוצע משלוח מוקד</option><option value="avg_delivery_net">ממוצע משלוח רשת</option><option value="refund_sum">סכום זיכויים</option><option value="refund_pct">% זיכויים</option><option value="refund_avg">ממוצע זיכוי לפניה</option>
     </select>
   </div>
   <div class="frow">
@@ -274,7 +274,7 @@ svg{overflow:visible;display:block}
     </select>
     <label>מדד:</label>
     <select id="wk-dmet" onchange="renderWkDetail()">
-      <option value="calls_in">שיחות נכנסות</option><option value="ans_pct">% מענה</option>
+      <option value="calls_in">שיחות נכנסות</option><option value="calls_branches">שיחות גולשות</option><option value="ans_pct">% מענה</option>
       <option value="dig_count">פניות כתובות</option><option value="surv_avg">ממוצע סקרים</option><option value="efficiency">יעילות</option><option value="orders_n">כמות הזמנות</option><option value="orders_sum">סכום הזמנות</option><option value="avg_delivery_digital">ממוצע משלוח מוקד</option><option value="avg_delivery_net">ממוצע משלוח רשת</option><option value="refund_sum">סכום זיכויים</option><option value="refund_pct">% זיכויים</option><option value="refund_avg">ממוצע זיכוי לפניה</option>
     </select>
   </div>
@@ -303,7 +303,7 @@ svg{overflow:visible;display:block}
   <div class="frow">
     <label>מדד:</label>
     <select id="mo-met" onchange="renderMonthly()">
-      <option value="calls_in">שיחות נכנסות</option><option value="calls_sales">שיחות מכירות</option>
+      <option value="calls_in">שיחות נכנסות</option><option value="calls_branches">שיחות גולשות</option><option value="calls_sales">שיחות מכירות</option>
       <option value="calls_service">שיחות שירות</option><option value="calls_ans">שיחות נענות</option>
       <option value="ans_pct">% מענה</option><option value="dig_count">פניות כתובות</option>
       <option value="dig_time_sec">זמן תגובה</option><option value="bo">BO</option>
@@ -904,6 +904,64 @@ function renderInsights(){
         2025: <strong>${dig25p.toLocaleString()}</strong> → 2026: <strong style="color:${dig26>dig25p?'#f85149':'#3fb950'}">${dig26.toLocaleString()}</strong>`};
     })(),
     (()=>{
+      const v26=s(d26,'calls_branches'),v25p=s(d25p,'calls_branches'),v24p=s(d24p,'calls_branches');
+      const chg=v25p?((v26-v25p)/v25p*100):null;
+      return{type:'info',icon:'📞',title:'שיחות גולשות — 2026 YTD',
+        html:`<div class="ival" style="color:#58a6ff">${v26?.toLocaleString()}</div>
+        ${compBox(v24p,v25p,v26,v=>v?.toLocaleString())}
+        ${chg!=null?`<br>${chg<0?'⚠️ ירידה':'✅ עלייה'} של <strong>${Math.abs(chg).toFixed(1)}%</strong> לעומת ינו-פבר 2025`:''}`};
+    })(),
+    // ── פניות כתובות ──────────────────────────────────────────────
+    (()=>{
+      const v26=s(d26,'dig_count'),v25p=s(d25p,'dig_count'),v24p=s(d24p,'dig_count');
+      const v26avg=a(d26,'dig_time_sec'),v25avg=a(d25p,'dig_time_sec');
+      const chg=v25p?((v26-v25p)/v25p*100):null;
+      const okTime=v26avg!=null&&v26avg<=90;
+      return{type:okTime?'good':'warn',icon:'💬',title:'פניות כתובות — 2026 YTD',
+        html:`<div class="ival" style="color:#3fb950">${v26?.toLocaleString()}</div>
+        ממוצע זמן תגובה: <strong style="color:${okTime?'#3fb950':'#f85149'}">${v26avg!=null?new Date(v26avg*1000).toISOString().substr(14,5):'—'}</strong> | יעד: <strong>01:30</strong>
+        ${compBox(v24p,v25p,v26,v=>v?.toLocaleString())}
+        ${chg!=null?`<br>${chg<0?'✅ ירידה':'⚠️ עלייה'} של <strong>${Math.abs(chg).toFixed(1)}%</strong> לעומת ינו-פבר 2025`:''}`};
+    })(),
+
+    // ── סה"כ פניות שטופלו ──────────────────────────────────────────────
+    (()=>{
+      const v26=s(d26,'total_handled'),v25p=s(d25p,'total_handled'),v24p=s(d24p,'total_handled');
+      const v26avg=a(d26,'total_handled');
+      const chg=v25p?((v26-v25p)/v25p*100):null;
+      return{type:'info',icon:'📊',title:'סה"כ פניות שטופלו — 2026 YTD',
+        html:`<div class="ival" style="color:#58a6ff">${v26?.toLocaleString()}</div>
+        ממוצע יומי: <strong>${v26avg?.toFixed(0)}</strong>
+        ${compBox(v24p,v25p,v26,v=>v?.toLocaleString())}
+        ${chg!=null?`<br>${chg<0?'⚠️ ירידה':'✅ עלייה'} של <strong>${Math.abs(chg).toFixed(1)}%</strong> לעומת ינו-פבר 2025`:''}`};
+    })(),
+
+    // ── ממוצע זיכוי שבוע מול שבוע ──────────────────────────────────────────────
+    (()=>{
+      const weeks={};
+      d26.forEach(r=>{
+        const wk=Math.ceil(r.day/7);
+        if(!weeks[wk]) weeks[wk]={vals:[],dates:[]};
+        if(r.refund_avg!=null) weeks[wk].vals.push(r.refund_avg);
+        weeks[wk].dates.push(r.date);
+      });
+      const wkArr=Object.keys(weeks).sort((a,b)=>a-b).map(k=>({
+        wk:k, avg:weeks[k].vals.length?weeks[k].vals.reduce((s,x)=>s+x,0)/weeks[k].vals.length:null
+      })).filter(w=>w.avg!=null);
+      const last=wkArr[wkArr.length-1], prev=wkArr[wkArr.length-2];
+      const chg=last&&prev&&prev.avg?((last.avg-prev.avg)/prev.avg*100):null;
+      const ok=last&&last.avg<=2.7;
+      return{type:ok?'good':'warn',icon:'📉',title:'ממוצע זיכוי לפנייה — שבוע מול שבוע',
+        html:`<div class="ival" style="color:${ok?'#3fb950':'#f85149'}">₪${last?.avg?.toFixed(2)||'—'} ${ok?'✅':'⚠️'}</div>
+        יעד: <strong>≤ ₪2.7</strong>
+        <div class="icomp">
+          <div class="icomp-item"><div class="icomp-yr">שבוע קודם</div><div class="icomp-val" style="color:#58a6ff">₪${prev?.avg?.toFixed(2)||'—'}</div></div>
+          <div class="icomp-item"><div class="icomp-yr">שבוע נוכחי</div><div class="icomp-val" style="color:${ok?'#3fb950':'#f85149'}">₪${last?.avg?.toFixed(2)||'—'}</div></div>
+        </div>
+        ${chg!=null?`<br>${chg>0?'⚠️ עלייה':'✅ ירידה'} של <strong>${Math.abs(chg).toFixed(1)}%</strong> מהשבוע הקודם`:''}`};
+    })(),
+
+        (()=>{
       const byDay=DHE.map((_,wi)=>{const v=d26.filter(r=>r.weekday===wi).map(r=>r.calls_in||0);return{day:DHE[wi],avg:v.length?v.reduce((s,x)=>s+x,0)/v.length:0};});
       const busiest=[...byDay].sort((a,b)=>b.avg-a.avg)[0];
       const feb26Days=d26feb.filter(r=>r.ans_pct).map(r=>({date:r.date,day:DHE[r.weekday],ans:r.ans_pct}));
@@ -916,19 +974,7 @@ function renderInsights(){
         <br>🔴 הכי נמוך: <strong>${worstDay?fD(worstDay.date):''}</strong> (${worstDay?.day}) — <strong style="color:#f85149">${worstDay?.ans?.toFixed(1)}%</strong>
         <br><br>💡 מומלץ לתגבר כ"א ב<strong>${busiest?.day}</strong>`};
     })(),
-    (()=>{
-      const v26=a(d26,'refund_avg'),v25p=a(d25p,'refund_avg'),v24p=a(d24p,'refund_avg');
-      const ok=v26!=null&&v26<=2.7;
-      const v26ord=a(d26,'orders_n'),v26sum=a(d26,'orders_sum');
-      const v26del=a(d26,'avg_delivery_digital'),v26deln=a(d26,'avg_delivery_net');
-      return{type:ok?'good':'warn',icon:'🍕',title:'הזמנות וזיכויים — 2026 YTD',
-        html:`<div class="ival" style="color:${ok?'#3fb950':'#f85149'}">ממוצע זיכוי: ₪${v26?.toFixed(2)} ${ok?'✅':'⚠️'}</div>
-        יעד: <strong>≤ ₪2.7</strong>
-        ${compBox(v24p,v25p,v26,v=>v!=null?'₪'+v.toFixed(2):'—')}
-        ${v26del!=null?`<br>ממוצע משלוח מוקד: <strong>₪${v26del.toFixed(1)}</strong> | רשת: <strong>₪${v26deln?.toFixed(1)||'—'}</strong>`:''}
-        ${v26ord!=null?`<br>ממוצע הזמנות יומי: <strong>${v26ord.toFixed(0)}</strong> | סכום: <strong>₪${v26sum?.toFixed(0)||'—'}</strong>`:''}
-        `};
-    })(),
+    
 
     // ── ממוצע הזמנה: מוקד vs רשת ──────────────────────────────
     (()=>{
@@ -1300,7 +1346,7 @@ function showToast(msg){
 
 
 /* ══ LIVE DATA FROM GOOGLE SHEETS ══ */
-const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyQMmFAtk-VzKgxvDmaMzBBDKIQB6ip4vLLrVZMOrb1K2zal5B5qrwdstufaL6DcKkk/exec';
+const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbzo_NVrGDJ2EBwLOfBIWhPnIpM5b93s39gdIePpHyt-r9T0TpZmfxR6R0zJLeksr0Ad/exec';
 
 (function loadLiveData(){
   const overlay = document.getElementById('_loading');
