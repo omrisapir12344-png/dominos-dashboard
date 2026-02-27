@@ -189,7 +189,7 @@ svg{overflow:visible;display:block}
   <div class="tab" onclick="showTab('monthly',this)">📅 חודשי</div>
   <div class="tab" onclick="showTab('yearly',this)">📈 שנתי</div>
   <div class="tab" onclick="showTab('insights',this)">💡 תובנות</div>
-  <div class="tab" onclick="showTab('topics',this)">🗂️ פירוט לפי נושא</div>
+  <div class="tab" onclick="showTab('topics',this)">🗂️ פירוט קטגוריות</div>
 </div>
 
 <!-- ═══ DAILY ═══════════════════════════════════════════════ -->
@@ -897,6 +897,7 @@ function renderInsights(){
         ${v26del!=null?`<br>ממוצע משלוח מוקד: <strong>₪${v26del.toFixed(1)}</strong> | רשת: <strong>₪${v26deln?.toFixed(1)||'—'}</strong>`:''}
         ${v26ord!=null?`<br>ממוצע הזמנות יומי: <strong>${v26ord.toFixed(0)}</strong> | סכום: <strong>₪${v26sum?.toFixed(0)||'—'}</strong>`:''}
         `};
+    })(),
 
     // ── ממוצע הזמנה: מוקד vs רשת ──────────────────────────────
     (()=>{
@@ -1265,6 +1266,81 @@ function showToast(msg){
 /* ══════════════════════════════════════════════════════
    DATA ENTRY TAB
    ══════════════════════════════════════════════════════ */
+
+
+/* ══ LIVE DATA FROM GOOGLE SHEETS ══ */
+const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyHxwq1swS_V1-9ttWmmD0faKYkqaCs9IO40jDeJETiLjK1dGaTy88165F8AfvHfu8D0Q/exec';
+
+(function loadLiveData(){
+  const overlay = document.getElementById('_loading');
+  const bar     = document.getElementById('_load_bar');
+  const status  = document.getElementById('_load_status');
+  const errDiv  = document.getElementById('_load_err');
+
+  function setBar(p){ bar.style.width=p+'%'; }
+  function setStatus(s){ status.textContent=s; }
+  function hideOverlay(){
+    overlay.style.transition='opacity .5s';
+    overlay.style.opacity='0';
+    setTimeout(()=>overlay.style.display='none',500);
+  }
+  function showErr(msg){
+    errDiv.style.display='block';
+    errDiv.textContent='❌ '+msg+' — נטענים נתוני גיבוי.';
+    setBar(100); bar.style.background='#f85149';
+    renderDaily();
+    setTimeout(hideOverlay, 2000);
+  }
+
+  function injectData(data){
+    RAW.length=0;
+    data.forEach(r=>RAW.push(r));
+    const latest=[...RAW].filter(r=>r.calls_in).slice(-1)[0];
+    if(latest){
+      const p=latest.date.split('-');
+      document.getElementById('hdr-last').textContent=p[2]+'/'+p[1]+'/'+p[0];
+      document.getElementById('sel-date').value=latest.date;
+    }
+    renderDaily();
+    hideOverlay();
+  }
+
+  setBar(20); setStatus('מתחבר לגוגל שיטס...');
+
+  const cb = '__gs_'+Date.now();
+  const url = WEBAPP_URL+'?callback='+cb;
+  let done = false;
+
+  window[cb] = function(data){
+    done=true;
+    delete window[cb];
+    if(script.parentNode) script.parentNode.removeChild(script);
+    if(!Array.isArray(data)||!data.length){ showErr('הגיליון ריק'); return; }
+    setBar(90); setStatus('נטענו '+data.length+' ימי נתונים ✓');
+    setTimeout(()=>injectData(data), 300);
+  };
+
+  const script = document.createElement('script');
+  script.src = url;
+  script.onerror = function(){
+    done=true;
+    showErr('לא ניתן להתחבר לגוגל שיטס');
+  };
+
+  setTimeout(function(){
+    if(!done){ done=true; showErr('timeout'); }
+  }, 8000);
+  
+  // If script fails to load at all - fallback immediately
+  script.onload = function(){
+    setTimeout(function(){
+      if(!done){ done=true; showErr('לא התקבלה תשובה מהשרת'); }
+    }, 5000);
+  };
+
+  setBar(50);
+  document.head.appendChild(script);
+})();
 
 </script>
 </body>
