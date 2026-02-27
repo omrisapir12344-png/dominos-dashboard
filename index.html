@@ -152,9 +152,30 @@ svg{overflow:visible;display:block}
 
 
 
+
+#_login{position:fixed;inset:0;background:#0d1117;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px}
+#_login .login-box{background:#161b22;border:1px solid #30363d;border-radius:16px;padding:40px;text-align:center;max-width:360px;width:90%}
+#_login .login-logo{width:70px;height:70px;margin:0 auto 16px}
+#_login h2{color:#e6edf3;font-size:1.3rem;margin-bottom:6px}
+#_login p{color:#8b949e;font-size:.85rem;margin-bottom:24px}
+#_login input{width:100%;background:#0d1117;border:1px solid #30363d;color:#e6edf3;border-radius:8px;padding:12px 16px;font-size:1rem;outline:none;text-align:center;letter-spacing:2px;margin-bottom:12px;box-sizing:border-box}
+#_login input:focus{border-color:#e8322a}
+#_login button{width:100%;background:#e8322a;color:#fff;border:none;border-radius:8px;padding:12px;font-size:1rem;font-weight:700;cursor:pointer}
+#_login button:hover{background:#c0281f}
+#_login .login-err{color:#f85149;font-size:.82rem;min-height:18px}
 </style>
 </head>
 <body>
+<div id="_login">
+  <div class="login-box">
+    <img class="login-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Domino%27s_Pizza_logo.svg/1200px-Domino%27s_Pizza_logo.svg.png">
+    <h2>דשבורד מוקד שירות</h2>
+    <p>הכנס סיסמא לכניסה</p>
+    <input type="password" id="_pwd" placeholder="סיסמא" onkeydown="if(event.key==='Enter')checkLogin()">
+    <button onclick="checkLogin()">כניסה</button>
+    <div class="login-err" id="_login-err"></div>
+  </div>
+</div>
 
 <div id="_loading" style="position:fixed;inset:0;background:#0d1117;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px">
   <div style="font-size:3rem">🍕</div>
@@ -1346,6 +1367,24 @@ const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyHxwq1swS_V1-9ttWmm
   setBar(50);
   document.head.appendChild(script);
 })();
+
+
+function checkLogin(){
+  const pwd = document.getElementById('_pwd').value;
+  if(pwd === 'Dominos&gav2026'){
+    document.getElementById('_login').style.display='none';
+    sessionStorage.setItem('auth','1');
+  } else {
+    document.getElementById('_login-err').textContent='סיסמא שגויה, נסה שוב';
+    document.getElementById('_pwd').value='';
+    document.getElementById('_pwd').focus();
+  }
+}
+window.addEventListener('load',function(){
+  if(sessionStorage.getItem('auth')==='1'){
+    document.getElementById('_login').style.display='none';
+  }
+});
 
 </script>
 </body>
